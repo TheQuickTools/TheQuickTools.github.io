@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /js/
 
-Sitemap: https://quicktools.io/sitemap.xml
+Sitemap: https://monmon-05.github.io/sitemap.xml
