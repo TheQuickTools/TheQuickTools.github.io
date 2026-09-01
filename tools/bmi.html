@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI Calculator - Body Mass Index | QuickTools</title>
+  <meta name="description" content="Free BMI calculator. Calculate your Body Mass Index using metric or imperial units. Understand your weight category instantly.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#health" class="nav-link active">Health</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#health">Health</a> <span>/</span> BMI Calculator</div>
+    <h1>BMI Calculator</h1>
+    <p class="tool-desc">Calculate your Body Mass Index and find out if you're in a healthy weight range.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="setUnit('metric')">Metric</button>
+      <button class="tab-btn" onclick="setUnit('imperial')">Imperial</button>
+    </div>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div id="metricInputs">
+        <div class="form-row">
+          <div class="form-group"><label>Height (cm)</label><input type="number" id="heightCm" value="170"></div>
+          <div class="form-group"><label>Weight (kg)</label><input type="number" id="weightKg" value="70"></div>
+        </div>
+      </div>
+      <div id="imperialInputs" style="display:none;">
+        <div class="form-row">
+          <div class="form-group"><label>Feet</label><input type="number" id="heightFt" value="5" min="1" max="8"></div>
+          <div class="form-group"><label>Inches</label><input type="number" id="heightIn" value="7" min="0" max="11"></div>
+        </div>
+        <div class="form-group"><label>Weight (lbs)</label><input type="number" id="weightLbs" value="154"></div>
+      </div>
+      <div class="form-group"><button class="btn btn-primary" style="width:100%" onclick="calcBMI()">Calculate</button></div>
+    </div>
+
+    <div id="bmiResults" style="display:none;">
+      <div class="result-card" style="text-align:center;">
+        <div class="result-label">Your BMI</div>
+        <div class="result-value" id="bmiValue">0</div>
+        <div id="bmiCategory" class="badge" style="margin-top:8px;"></div>
+      </div>
+      <div class="result-card">
+        <h3 style="font-size:1rem;margin-bottom:16px;">BMI Categories</h3>
+        <div class="result-details">
+          <div class="result-row"><span>Underweight</span><span>&lt; 18.5</span></div>
+          <div class="result-row"><span>Normal weight</span><span style="color:var(--green)">18.5 – 24.9</span></div>
+          <div class="result-row"><span>Overweight</span><span style="color:var(--yellow)">25 – 29.9</span></div>
+          <div class="result-row"><span>Obese</span><span style="color:var(--red)">30+</span></div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="result-details">
+          <div class="result-row"><span>Healthy Weight Range</span><span id="healthyRange">-</span></div>
+          <div class="result-row"><span>Ideal Weight (BMI 22)</span><span id="idealWeight">-</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    let isMetric = true;
+    function setUnit(u) {
+      isMetric = u === 'metric';
+      document.querySelectorAll('.tabs .tab-btn').forEach((b,i) => b.classList.toggle('active', i === (isMetric?0:1)));
+      document.getElementById('metricInputs').style.display = isMetric ? '' : 'none';
+      document.getElementById('imperialInputs').style.display = isMetric ? 'none' : '';
+      calcBMI();
+    }
+
+    function calcBMI() {
+      let hM, wKg;
+      if (isMetric) {
+        hM = parseFloat(document.getElementById('heightCm').value) / 100;
+        wKg = parseFloat(document.getElementById('weightKg').value);
+      } else {
+        const ft = parseFloat(document.getElementById('heightFt').value) || 0;
+        const inc = parseFloat(document.getElementById('heightIn').value) || 0;
+        hM = (ft * 12 + inc) * 0.0254;
+        wKg = parseFloat(document.getElementById('weightLbs').value) * 0.453592;
+      }
+      if (!hM || !wKg) return;
+
+      const bmi = wKg / (hM * hM);
+      let cat, cls;
+      if (bmi < 18.5) { cat = 'Underweight'; cls = 'badge-yellow'; }
+      else if (bmi < 25) { cat = 'Normal weight'; cls = 'badge-green'; }
+      else if (bmi < 30) { cat = 'Overweight'; cls = 'badge-yellow'; }
+      else { cat = 'Obese'; cls = 'badge-red'; }
+
+      document.getElementById('bmiValue').textContent = bmi.toFixed(1);
+      const badge = document.getElementById('bmiCategory');
+      badge.textContent = cat;
+      badge.className = 'badge ' + cls;
+
+      const lo = (18.5 * hM * hM).toFixed(1);
+      const hi = (24.9 * hM * hM).toFixed(1);
+      const ideal = (22 * hM * hM).toFixed(1);
+      const unit = isMetric ? 'kg' : 'lbs';
+      const toLbs = v => (v * 2.20462).toFixed(1);
+
+      document.getElementById('healthyRange').textContent = isMetric ? lo + ' – ' + hi + ' kg' : toLbs(parseFloat(lo)) + ' – ' + toLbs(parseFloat(hi)) + ' lbs';
+      document.getElementById('idealWeight').textContent = isMetric ? ideal + ' kg' : toLbs(parseFloat(ideal)) + ' lbs';
+      document.getElementById('bmiResults').style.display = 'block';
+    }
+    calcBMI();
+  </script>
+</body>
+</html>

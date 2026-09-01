@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UUID Generator - v4 Unique Identifiers | QuickTools</title>
+  <meta name="description" content="Free UUID generator. Generate UUID v4 unique identifiers. Batch generate up to 100 at once.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#dev" class="nav-link active">Developer</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#dev">Developer</a> <span>/</span> UUID Generator</div>
+    <h1>UUID Generator</h1>
+    <p class="tool-desc">Generate UUID v4 unique identifiers. Cryptographically random.</p>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div class="form-row">
+        <div class="form-group"><label>Count</label><input type="number" id="uuidCount" value="5" min="1" max="100"></div>
+        <div class="form-group"><label>Format</label>
+          <select id="uuidFormat"><option value="lower">lowercase</option><option value="upper">UPPERCASE</option><option value="no-dash">No dashes</option></select>
+        </div>
+      </div>
+      <div class="form-group"><button class="btn btn-primary" style="width:100%" onclick="genUUIDs()">Generate</button></div>
+    </div>
+
+    <div class="result-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span class="result-label">Generated UUIDs</span>
+        <button class="btn btn-secondary" style="padding:6px 12px;font-size:0.8rem;" onclick="copyAllUUIDs()">Copy All</button>
+      </div>
+      <div class="result-details" id="uuidList"></div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    function uuid4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = crypto.getRandomValues(new Uint8Array(1))[0] % 16;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
+    let uuids = [];
+
+    function genUUIDs() {
+      const count = Math.min(100, Math.max(1, parseInt(document.getElementById('uuidCount').value)));
+      const fmt = document.getElementById('uuidFormat').value;
+      uuids = [];
+
+      for (let i = 0; i < count; i++) {
+        let u = uuid4();
+        if (fmt === 'upper') u = u.toUpperCase();
+        else if (fmt === 'no-dash') u = u.replace(/-/g, '');
+        uuids.push(u);
+      }
+
+      const list = document.getElementById('uuidList');
+      list.innerHTML = '';
+      uuids.forEach(u => {
+        list.innerHTML += `<div class="result-row" style="cursor:pointer;" onclick="copyText(this.querySelector('span').textContent)"><span style="font-family:var(--font-mono);font-size:0.85rem;">${u}</span><span style="color:var(--text-dim);font-size:0.75rem;">copy</span></div>`;
+      });
+    }
+
+    function copyAllUUIDs() { copyText(uuids.join('\n')); }
+    genUUIDs();
+  </script>
+</body>
+</html>

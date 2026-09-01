@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Prompt Generator - Better Prompts for ChatGPT & Claude | QuickTools</title>
+  <meta name="description" content="Free AI prompt generator. Create optimized prompts for ChatGPT, Claude, and Gemini. Templates for coding, writing, analysis, and more.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#ai" class="nav-link active">AI Tools</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#ai">AI Tools</a> <span>/</span> AI Prompt Generator</div>
+    <h1>AI Prompt Generator</h1>
+    <p class="tool-desc">Generate optimized prompts for ChatGPT, Claude, and Gemini. Choose a template or create custom prompts.</p>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div class="form-group"><label>Template</label>
+        <select id="promptTemplate" onchange="loadTemplate()">
+          <option value="custom">Custom Prompt</option>
+          <option value="code">Code Review</option>
+          <option value="write">Blog Post</option>
+          <option value="email">Professional Email</option>
+          <option value="explain">Explain Concept</option>
+          <option value="summarize">Summarize Text</option>
+          <option value="brainstorm">Brainstorm Ideas</option>
+          <option value="translate">Translate & Localize</option>
+          <option value="data">Data Analysis</option>
+          <option value="seo">SEO Content</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Your Topic / Task</label><textarea id="promptTopic" rows="3" oninput="genPrompt()" placeholder="Describe what you want the AI to do..."></textarea></div>
+      <div class="form-group">
+        <label>Extra Details (optional)</label>
+        <textarea id="promptExtra" rows="2" oninput="genPrompt()" placeholder="Target audience, tone, constraints..."></textarea>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span class="result-label">Generated Prompt</span>
+        <button class="btn btn-secondary" style="padding:6px 12px;font-size:0.8rem;" onclick="copyText(document.getElementById('promptOutput').textContent)">Copy</button>
+      </div>
+      <div id="promptOutput" style="font-size:0.9rem;line-height:1.7;white-space:pre-wrap;color:var(--text-muted);"></div>
+    </div>
+
+    <div class="result-card">
+      <h3 style="font-size:1rem;margin-bottom:12px;">Prompt Tips</h3>
+      <div class="result-details">
+        <div class="result-row"><span>Be specific</span><span>Give clear context and examples</span></div>
+        <div class="result-row"><span>Set role</span><span>"Act as a senior developer..."</span></div>
+        <div class="result-row"><span>Define format</span><span>"Respond in bullet points..."</span></div>
+        <div class="result-row"><span>Add constraints</span><span>"Keep under 200 words..."</span></div>
+        <div class="result-row"><span>Chain of thought</span><span>"Think step by step..."</span></div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    const templates = {
+      custom: `You are a helpful assistant. Please help me with the following:\n\n{topic}\n\n{extra}`,
+      code: `Act as a senior software engineer. Review the following code and provide:\n1. Bugs or issues found\n2. Performance improvements\n3. Security concerns\n4. Code readability suggestions\n\nCode:\n{topic}\n\n{extra}`,
+      write: `Write a comprehensive, SEO-optimized blog post about:\n{topic}\n\nRequirements:\n- Engaging introduction with a hook\n- Use H2/H3 headings\n- Include practical examples\n- 1500-2000 words\n- End with a clear CTA\n\n{extra}`,
+      email: `Draft a professional email about:\n{topic}\n\nTone: Professional but warm\nFormat: Subject line + body\nKeep it concise and actionable.\n\n{extra}`,
+      explain: `Explain the following concept in simple terms:\n{topic}\n\nUse:\n- Simple language a beginner would understand\n- Real-world analogies\n- 2-3 practical examples\n- A quick summary at the end\n\n{extra}`,
+      summarize: `Summarize the following text into key points:\n{topic}\n\nFormat:\n- 3-5 bullet points\n- One-sentence TL;DR at the top\n- Highlight action items if any\n\n{extra}`,
+      brainstorm: `Brainstorm 10 creative ideas about:\n{topic}\n\nFor each idea provide:\n- One-line description\n- Why it's unique\n- How to implement it\n\n{extra}`,
+      translate: `Translate and localize the following for a {target_audience} audience:\n{topic}\n\nMaintain the original tone and intent. Adapt cultural references as needed.\n\n{extra}`,
+      data: `Analyze the following data and provide insights:\n{topic}\n\nInclude:\n- Key trends and patterns\n- Anomalies or outliers\n- Actionable recommendations\n- Visualization suggestions\n\n{extra}`,
+      seo: `Create SEO-optimized content about:\n{topic}\n\nInclude:\n- Title tag (under 60 chars)\n- Meta description (under 160 chars)\n- H1 and H2 headings with keywords\n- Introduction with primary keyword\n- FAQ section with schema markup suggestions\n\n{extra}`
+    };
+
+    function loadTemplate() { genPrompt(); }
+
+    function genPrompt() {
+      const template = document.getElementById('promptTemplate').value;
+      const topic = document.getElementById('promptTopic').value || '[YOUR TOPIC HERE]';
+      const extra = document.getElementById('promptExtra').value || '';
+      let prompt = templates[template].replace('{topic}', topic).replace('{extra}', extra ? '\nAdditional details:\n' + extra : '').trim();
+      document.getElementById('promptOutput').textContent = prompt;
+    }
+    genPrompt();
+  </script>
+</body>
+</html>

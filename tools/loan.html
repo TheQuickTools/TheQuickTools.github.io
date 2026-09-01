@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Calculator - Personal Loan Payments | QuickTools</title>
+  <meta name="description" content="Free loan calculator. Calculate monthly payments for personal loans, auto loans, and student loans with amortization schedule.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#finance" class="nav-link active">Finance</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#finance">Finance</a> <span>/</span> Loan Calculator</div>
+    <h1>Loan Calculator</h1>
+    <p class="tool-desc">Calculate monthly payments, total interest, and see how extra payments can save you money.</p>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div class="form-row">
+        <div class="form-group"><label>Loan Amount</label><input type="text" id="loanAmt" value="25,000" inputmode="numeric"></div>
+        <div class="form-group"><label>Interest Rate (%)</label><input type="number" id="loanRate" value="7.5" step="0.01"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Loan Term (years)</label><input type="number" id="loanTerm" value="5" min="1" max="30"></div>
+        <div class="form-group"><label>Extra Monthly Payment</label><input type="text" id="extraPay" value="0" inputmode="numeric"></div>
+      </div>
+      <div class="form-group"><button class="btn btn-primary" style="width:100%" onclick="calcLoan()">Calculate</button></div>
+    </div>
+
+    <div id="loanResults" style="display:none;">
+      <div class="result-card" style="text-align:center;">
+        <div class="result-label">Monthly Payment</div>
+        <div class="result-value" id="loanMonthly">$0</div>
+      </div>
+      <div class="result-card">
+        <div class="result-details">
+          <div class="result-row"><span>Total Principal</span><span id="loanPrincipal">-</span></div>
+          <div class="result-row"><span>Total Interest</span><span id="loanIntTotal">-</span></div>
+          <div class="result-row"><span>Total Cost</span><span id="loanTotal">-</span></div>
+          <div class="result-row"><span>Payoff Time</span><span id="payoffTime">-</span></div>
+          <div class="result-row"><span>Interest Saved with Extra</span><span id="intSaved" style="color:var(--green)">-</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    function parseNum(s) { return parseFloat(s.replace(/[^0-9.-]/g,'')) || 0; }
+    function calcLoan() {
+      const P = parseNum(document.getElementById('loanAmt').value);
+      const r = parseFloat(document.getElementById('loanRate').value) / 100 / 12;
+      const n = parseInt(document.getElementById('loanTerm').value) * 12;
+      const extra = parseNum(document.getElementById('extraPay').value);
+      if (P <= 0 || r <= 0) return;
+
+      const M = P * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n) - 1);
+      const totalCost = M * n;
+      const totalInt = totalCost - P;
+
+      let balance = P, months = 0, totalWithExtra = 0;
+      while (balance > 0 && months < 600) {
+        const intPart = balance * r;
+        const prinPart = M + extra - intPart;
+        balance -= Math.max(0, prinPart);
+        totalWithExtra += M + extra;
+        months++;
+      }
+
+      const totalIntSaved = totalInt - (totalWithExtra - P);
+
+      document.getElementById('loanMonthly').textContent = formatCurrency(M);
+      document.getElementById('loanPrincipal').textContent = formatCurrency(P);
+      document.getElementById('loanIntTotal').textContent = formatCurrency(totalInt);
+      document.getElementById('loanTotal').textContent = formatCurrency(totalCost);
+      document.getElementById('payoffTime').textContent = Math.floor(months/12) + ' years, ' + (months%12) + ' months';
+      document.getElementById('intSaved').textContent = extra > 0 ? formatCurrency(Math.max(0,totalIntSaved)) : '$0.00';
+      document.getElementById('loanResults').style.display = 'block';
+    }
+    calcLoan();
+  </script>
+</body>
+</html>

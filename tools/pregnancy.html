@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pregnancy Due Date Calculator | QuickTools</title>
+  <meta name="description" content="Free pregnancy due date calculator. Estimate your baby's due date and see week-by-week pregnancy milestones and trimester info.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#health" class="nav-link active">Health</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#health">Health</a> <span>/</span> Pregnancy Due Date</div>
+    <h1>Pregnancy Due Date Calculator</h1>
+    <p class="tool-desc">Estimate your baby's due date and see which trimester you're in with week-by-week milestones.</p>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div class="form-group"><label>Last Menstrual Period (LMP) Date</label><input type="date" id="lmpDate"></div>
+      <div class="form-group"><button class="btn btn-primary" style="width:100%" onclick="calcDue()">Calculate Due Date</button></div>
+    </div>
+
+    <div id="dueResults" style="display:none;">
+      <div class="result-card" style="text-align:center;">
+        <div class="result-label">Estimated Due Date</div>
+        <div class="result-value" id="dueDate" style="font-size:1.5rem;">-</div>
+      </div>
+      <div class="result-card">
+        <div class="result-details">
+          <div class="result-row"><span>Weeks Pregnant</span><span id="weeksPreg">-</span></div>
+          <div class="result-row"><span>Days Remaining</span><span id="daysRemain">-</span></div>
+          <div class="result-row"><span>Current Trimester</span><span id="trimester">-</span></div>
+          <div class="result-row"><span>Days Pregnant</span><span id="daysPreg">-</span></div>
+        </div>
+      </div>
+      <div class="result-card">
+        <h3 style="font-size:1rem;margin-bottom:16px;">Pregnancy Milestones</h3>
+        <div class="result-details" id="milestones"></div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    const now = new Date();
+    document.getElementById('lmpDate').value = new Date(now - 140*86400000).toISOString().split('T')[0];
+
+    function calcDue() {
+      const lmp = new Date(document.getElementById('lmpDate').value);
+      if (isNaN(lmp)) return;
+
+      const dueDate = new Date(lmp);
+      dueDate.setDate(dueDate.getDate() + 280);
+
+      const today = new Date();
+      const daysPreg = Math.floor((today - lmp) / 86400000);
+      const weeks = Math.floor(daysPreg / 7);
+      const days = daysPreg % 7;
+      const remain = Math.max(0, 280 - daysPreg);
+
+      let tri, triColor;
+      if (weeks <= 12) { tri = '1st Trimester'; triColor = 'var(--green)'; }
+      else if (weeks <= 27) { tri = '2nd Trimester'; triColor = 'var(--blue)'; }
+      else { tri = '3rd Trimester'; triColor = 'var(--yellow)'; }
+
+      document.getElementById('dueDate').textContent = dueDate.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+      document.getElementById('weeksPreg').textContent = weeks + ' weeks, ' + days + ' days';
+      document.getElementById('daysRemain').textContent = remain + ' days';
+      document.getElementById('trimester').textContent = tri;
+      document.getElementById('trimester').style.color = triColor;
+      document.getElementById('daysPreg').textContent = daysPreg + ' days';
+
+      const milestones = [
+        { w: 4, t: 'Heart begins to beat' },
+        { w: 8, t: 'Fingers and toes form' },
+        { w: 12, t: 'End of 1st trimester, organs formed' },
+        { w: 16, t: 'Can determine sex on ultrasound' },
+        { w: 20, t: 'Halfway point — can feel movement' },
+        { w: 24, t: 'Viability milestone outside womb' },
+        { w: 28, t: 'Start of 3rd trimester' },
+        { w: 32, t: 'Lungs nearly developed' },
+        { w: 36, t: 'Baby may drop into position' },
+        { w: 40, t: 'Full term — due date!' }
+      ];
+
+      const mDiv = document.getElementById('milestones');
+      mDiv.innerHTML = '';
+      milestones.forEach(m => {
+        const passed = weeks >= m.w;
+        mDiv.innerHTML += `<div class="result-row"><span style="${passed?'color:var(--green)':''}">${passed?'✓':'○'} Week ${m.w}</span><span>${m.t}</span></div>`;
+      });
+
+      document.getElementById('dueResults').style.display = 'block';
+    }
+    calcDue();
+  </script>
+</body>
+</html>

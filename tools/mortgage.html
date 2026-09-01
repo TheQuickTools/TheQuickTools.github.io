@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mortgage Calculator - Monthly Payments & Amortization | QuickTools</title>
+  <meta name="description" content="Free mortgage calculator. Calculate monthly payments, total interest, and see a full amortization schedule. Supports fixed and adjustable rates.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <nav class="nav">
+        <a href="/#finance" class="nav-link active">Finance</a>
+        <a href="/#health" class="nav-link">Health</a>
+        <a href="/#converters" class="nav-link">Converters</a>
+        <a href="/#text" class="nav-link">Text</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#finance">Finance</a> <span>/</span> Mortgage Calculator</div>
+    <h1>Mortgage Calculator</h1>
+    <p class="tool-desc">Calculate monthly payments, total interest cost, and view a complete amortization schedule for your home loan.</p>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Home Price</label>
+          <input type="text" id="price" value="350,000" inputmode="numeric">
+        </div>
+        <div class="form-group">
+          <label>Down Payment</label>
+          <input type="text" id="down" value="70,000" inputmode="numeric">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Interest Rate (%)</label>
+          <input type="number" id="rate" value="6.5" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Loan Term</label>
+          <select id="term">
+            <option value="30">30 years</option>
+            <option value="20">20 years</option>
+            <option value="15">15 years</option>
+            <option value="10">10 years</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start Date</label>
+          <input type="month" id="startDate">
+        </div>
+        <div class="form-group" style="display:flex;align-items:flex-end;">
+          <button class="btn btn-primary" style="width:100%" onclick="calcMortgage()">Calculate</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="results" style="display:none;">
+      <div class="result-card" style="text-align:center;">
+        <div class="result-label">Monthly Payment</div>
+        <div class="result-value" id="monthlyPayment">$0</div>
+      </div>
+
+      <div class="result-card">
+        <div class="result-details">
+          <div class="result-row"><span>Loan Amount</span><span id="loanAmount">-</span></div>
+          <div class="result-row"><span>Total Interest</span><span id="totalInterest">-</span></div>
+          <div class="result-row"><span>Total Cost</span><span id="totalCost">-</span></div>
+          <div class="result-row"><span>Interest-to-Loan Ratio</span><span id="interestRatio">-</span></div>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <h3 style="font-size:1rem;margin-bottom:16px;">Amortization Schedule (First 12 Months)</h3>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead><tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+            <tbody id="amortBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-links"><a href="/">Home</a><a href="/sitemap.xml">Sitemap</a></div>
+    <p>&copy; 2026 QuickTools. All calculations run in your browser.</p>
+  </footer>
+
+  <script src="../js/app.js"></script>
+  <script>
+    const startInput = document.getElementById('startDate');
+    const now = new Date();
+    startInput.value = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+
+    function parseNum(s) { return parseFloat(s.replace(/[^0-9.-]/g,'')) || 0; }
+
+    function calcMortgage() {
+      const price = parseNum(document.getElementById('price').value);
+      const down = parseNum(document.getElementById('down').value);
+      const rate = parseFloat(document.getElementById('rate').value) / 100 / 12;
+      const months = parseInt(document.getElementById('term').value) * 12;
+      const loan = price - down;
+
+      if (loan <= 0 || rate <= 0) return;
+
+      const payment = loan * (rate * Math.pow(1+rate, months)) / (Math.pow(1+rate, months) - 1);
+      const totalPaid = payment * months;
+      const totalInt = totalPaid - loan;
+
+      document.getElementById('monthlyPayment').textContent = formatCurrency(payment);
+      document.getElementById('loanAmount').textContent = formatCurrency(loan);
+      document.getElementById('totalInterest').textContent = formatCurrency(totalInt);
+      document.getElementById('totalCost').textContent = formatCurrency(totalPaid);
+      document.getElementById('interestRatio').textContent = (totalInt/loan*100).toFixed(1) + '%';
+
+      const tbody = document.getElementById('amortBody');
+      tbody.innerHTML = '';
+      let balance = loan;
+      for (let m = 1; m <= Math.min(months, 12); m++) {
+        const intPart = balance * (rate);
+        const prinPart = payment - intPart;
+        balance -= prinPart;
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${m}</td><td>${formatCurrency(payment)}</td><td>${formatCurrency(prinPart)}</td><td>${formatCurrency(intPart)}</td><td>${formatCurrency(Math.max(0,balance))}</td>`;
+        tbody.appendChild(row);
+      }
+
+      document.getElementById('results').style.display = 'block';
+    }
+
+    calcMortgage();
+  </script>
+</body>
+</html>

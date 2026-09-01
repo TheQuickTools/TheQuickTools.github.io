@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calorie Calculator - TDEE & BMR | QuickTools</title>
+  <meta name="description" content="Free calorie calculator. Calculate your TDEE (Total Daily Energy Expenditure) and BMR based on your stats and activity level.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#health" class="nav-link active">Health</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#health">Health</a> <span>/</span> Calorie Calculator</div>
+    <h1>Calorie Calculator</h1>
+    <p class="tool-desc">Calculate your daily calorie needs based on your age, gender, height, weight, and activity level.</p>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div class="form-row">
+        <div class="form-group"><label>Gender</label>
+          <select id="cGender"><option value="male">Male</option><option value="female">Female</option></select>
+        </div>
+        <div class="form-group"><label>Age</label><input type="number" id="cAge" value="30" min="10" max="100"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Height (cm)</label><input type="number" id="cHeight" value="175"></div>
+        <div class="form-group"><label>Weight (kg)</label><input type="number" id="cWeight" value="75"></div>
+      </div>
+      <div class="form-group"><label>Activity Level</label>
+        <select id="cActivity">
+          <option value="1.2">Sedentary (little/no exercise)</option>
+          <option value="1.375">Light (1-3 days/week)</option>
+          <option value="1.55" selected>Moderate (3-5 days/week)</option>
+          <option value="1.725">Active (6-7 days/week)</option>
+          <option value="1.9">Very Active (2x/day)</option>
+        </select>
+      </div>
+      <div class="form-group"><button class="btn btn-primary" style="width:100%" onclick="calcCal()">Calculate</button></div>
+    </div>
+
+    <div id="calResults" style="display:none;">
+      <div class="result-card" style="text-align:center;">
+        <div class="result-label">Daily Calories (TDEE)</div>
+        <div class="result-value" id="tdee">0</div>
+        <div style="color:var(--text-dim);font-size:0.85rem;margin-top:4px;">kilocalories / day</div>
+      </div>
+      <div class="result-card">
+        <div class="result-details">
+          <div class="result-row"><span>BMR (Basal Metabolic Rate)</span><span id="bmr">-</span></div>
+          <div class="result-row"><span>To Lose Weight (-500)</span><span id="calLoss" style="color:var(--green)">-</span></div>
+          <div class="result-row"><span>To Gain Weight (+500)</span><span id="calGain" style="color:var(--blue)">-</span></div>
+        </div>
+      </div>
+      <div class="result-card">
+        <h3 style="font-size:1rem;margin-bottom:16px;">Macronutrient Breakdown</h3>
+        <div class="result-details">
+          <div class="result-row"><span>Protein (30%)</span><span id="macroP">-</span></div>
+          <div class="result-row"><span>Carbs (40%)</span><span id="macroC">-</span></div>
+          <div class="result-row"><span>Fat (30%)</span><span id="macroF">-</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    function calcCal() {
+      const gender = document.getElementById('cGender').value;
+      const age = parseInt(document.getElementById('cAge').value);
+      const h = parseFloat(document.getElementById('cHeight').value);
+      const w = parseFloat(document.getElementById('cWeight').value);
+      const act = parseFloat(document.getElementById('cActivity').value);
+
+      let bmr;
+      if (gender === 'male') bmr = 10*w + 6.25*h - 5*age + 5;
+      else bmr = 10*w + 6.25*h - 5*age - 161;
+
+      const tdee = bmr * act;
+
+      document.getElementById('tdee').textContent = Math.round(tdee);
+      document.getElementById('bmr').textContent = Math.round(bmr) + ' kcal';
+      document.getElementById('calLoss').textContent = Math.round(tdee - 500) + ' kcal';
+      document.getElementById('calGain').textContent = Math.round(tdee + 500) + ' kcal';
+      document.getElementById('macroP').textContent = Math.round(tdee * 0.3 / 4) + 'g protein';
+      document.getElementById('macroC').textContent = Math.round(tdee * 0.4 / 4) + 'g carbs';
+      document.getElementById('macroF').textContent = Math.round(tdee * 0.3 / 9) + 'g fat';
+      document.getElementById('calResults').style.display = 'block';
+    }
+    calcCal();
+  </script>
+</body>
+</html>

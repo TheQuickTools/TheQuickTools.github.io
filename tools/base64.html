@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base64 Encoder/Decoder | QuickTools</title>
+  <meta name="description" content="Free Base64 encoder and decoder. Encode and decode text to/from Base64 instantly.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#dev" class="nav-link active">Developer</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#dev">Developer</a> <span>/</span> Base64 Encoder/Decoder</div>
+    <h1>Base64 Encoder/Decoder</h1>
+    <p class="tool-desc">Encode and decode Base64 strings instantly.</p>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div class="form-group"><label>Input</label><textarea id="b64Input" rows="4" oninput="b64Encode()" placeholder="Enter text to encode..."></textarea></div>
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <button class="btn btn-primary" onclick="b64Encode()">Encode →</button>
+        <button class="btn btn-secondary" onclick="b64Decode()">← Decode</button>
+      </div>
+      <div class="form-group"><label>Output</label><textarea id="b64Output" rows="4" readonly onclick="copyText(this.value)" style="font-family:var(--font-mono);font-size:0.9rem;cursor:pointer;"></textarea></div>
+    </div>
+
+    <div class="result-card">
+      <span class="result-label">Common Uses</span>
+      <div class="result-details" style="margin-top:8px;">
+        <div class="result-row"><span>Data URLs</span><span>data:text/plain;base64,</span></div>
+        <div class="result-row"><span>HTTP Auth</span><span>Authorization: Basic [base64]</span></div>
+        <div class="result-row"><span>Email</span><span>MIME encoding</span></div>
+        <div class="result-row"><span>Embedding</span><span>Images in HTML/CSS</span></div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    function b64Encode() {
+      try {
+        const text = document.getElementById('b64Input').value;
+        document.getElementById('b64Output').value = btoa(unescape(encodeURIComponent(text)));
+      } catch(e) { document.getElementById('b64Output').value = 'Error: ' + e.message; }
+    }
+
+    function b64Decode() {
+      try {
+        const b64 = document.getElementById('b64Input').value.trim();
+        document.getElementById('b64Output').value = decodeURIComponent(escape(atob(b64)));
+      } catch(e) { document.getElementById('b64Output').value = 'Error: Invalid Base64 string'; }
+    }
+  </script>
+</body>
+</html>

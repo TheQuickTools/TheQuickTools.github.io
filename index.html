@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickTools - Free Online Calculators, Converters & Utilities</title>
+  <meta name="description" content="Free online tools: mortgage calculators, BMI calculator, unit converters, AI tool comparisons, text utilities, and more. Fast, private, no signup required.">
+  <meta name="keywords" content="online calculator, free tools, mortgage calculator, BMI calculator, unit converter, tip calculator, word counter, hash generator, color picker">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://quicktools.io/">
+  <meta property="og:title" content="QuickTools - Free Online Calculators, Converters & Utilities">
+  <meta property="og:description" content="Fast, free online tools for everyday tasks. Calculators, converters, text tools, and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://quicktools.io/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">
+        <div class="logo-icon">⚡</div>
+        QuickTools
+      </a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <nav class="nav">
+        <a href="#finance" class="nav-link">Finance</a>
+        <a href="#health" class="nav-link">Health</a>
+        <a href="#converters" class="nav-link">Converters</a>
+        <a href="#text" class="nav-link">Text</a>
+        <a href="#ai" class="nav-link">AI Tools</a>
+        <a href="#dev" class="nav-link">Developer</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Free Online Tools for<br>Everyday Tasks</h1>
+      <p>Fast, private, no signup. Calculators, converters, and utilities that just work.</p>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="toolSearch" placeholder="Search tools..." autocomplete="off">
+      </div>
+    </section>
+
+    <div class="container">
+      <!-- Finance -->
+      <section class="section tool-section" id="finance">
+        <h2 class="section-title">💰 Finance Calculators</h2>
+        <p class="section-sub">Make smarter financial decisions with instant calculations.</p>
+        <div class="tool-grid">
+          <a href="tools/mortgage.html" class="tool-card" data-name="mortgage loan house payment calculator">
+            <div class="tool-card-icon" style="background:var(--green-bg);color:var(--green)">🏠</div>
+            <h3>Mortgage Calculator</h3>
+            <p>Calculate monthly payments, total interest, and amortization schedules for home loans.</p>
+            <span class="tool-tag tag-finance">Finance</span>
+          </a>
+          <a href="tools/loan.html" class="tool-card" data-name="loan payment interest calculator">
+            <div class="tool-card-icon" style="background:var(--green-bg);color:var(--green)">💳</div>
+            <h3>Loan Calculator</h3>
+            <p>Calculate personal loan payments with custom terms and see total interest paid.</p>
+            <span class="tool-tag tag-finance">Finance</span>
+          </a>
+          <a href="tools/tip.html" class="tool-card" data-name="tip bill split restaurant calculator">
+            <div class="tool-card-icon" style="background:var(--green-bg);color:var(--green)">🧾</div>
+            <h3>Tip Calculator</h3>
+            <p>Split bills and calculate tips instantly. Perfect for group dinners and restaurants.</p>
+            <span class="tool-tag tag-finance">Finance</span>
+          </a>
+          <a href="tools/salary.html" class="tool-card" data-name="salary paycheck take home pay calculator">
+            <div class="tool-card-icon" style="background:var(--green-bg);color:var(--green)">💵</div>
+            <h3>Salary Calculator</h3>
+            <p>Convert between hourly, weekly, biweekly, monthly, and annual salary with tax estimates.</p>
+            <span class="tool-tag tag-finance">Finance</span>
+          </a>
+          <a href="tools/investment.html" class="tool-card" data-name="investment compound interest savings calculator">
+            <div class="tool-card-icon" style="background:var(--green-bg);color:var(--green)">📈</div>
+            <h3>Compound Interest Calculator</h3>
+            <p>See how your investments grow over time with compound interest and regular contributions.</p>
+            <span class="tool-tag tag-finance">Finance</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Health -->
+      <section class="section tool-section" id="health">
+        <h2 class="section-title">🏥 Health Calculators</h2>
+        <p class="section-sub">Quick health metrics and fitness calculations.</p>
+        <div class="tool-grid">
+          <a href="tools/bmi.html" class="tool-card" data-name="bmi body mass index weight health calculator">
+            <div class="tool-card-icon" style="background:var(--red-bg);color:#f87171">⚖️</div>
+            <h3>BMI Calculator</h3>
+            <p>Calculate your Body Mass Index and understand your weight category instantly.</p>
+            <span class="tool-tag tag-health">Health</span>
+          </a>
+          <a href="tools/calories.html" class="tool-card" data-name="calorie tdee bmr diet nutrition calculator">
+            <div class="tool-card-icon" style="background:var(--red-bg);color:#f87171">🔥</div>
+            <h3>Calorie Calculator</h3>
+            <p>Calculate your daily calorie needs based on age, weight, height, and activity level.</p>
+            <span class="tool-tag tag-health">Health</span>
+          </a>
+          <a href="tools/pregnancy.html" class="tool-card" data-name="pregnancy due date calculator baby">
+            <div class="tool-card-icon" style="background:var(--red-bg);color:#f87171">🤰</div>
+            <h3>Pregnancy Due Date</h3>
+            <p>Estimate your baby's due date and see week-by-week pregnancy milestones.</p>
+            <span class="tool-tag tag-health">Health</span>
+          </a>
+          <a href="tools/bodyfat.html" class="tool-card" data-name="body fat percentage calculator fitness">
+            <div class="tool-card-icon" style="background:var(--red-bg);color:#f87171">💪</div>
+            <h3>Body Fat Calculator</h3>
+            <p>Estimate body fat percentage using US Navy method and understand your fitness level.</p>
+            <span class="tool-tag tag-health">Health</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Converters -->
+      <section class="section tool-section" id="converters">
+        <h2 class="section-title">🔄 Unit Converters</h2>
+        <p class="section-sub">Convert between units instantly. No ads, no waiting.</p>
+        <div class="tool-grid">
+          <a href="tools/unit-converter.html" class="tool-card" data-name="unit converter length weight temperature volume">
+            <div class="tool-card-icon" style="background:var(--blue-bg);color:var(--blue)">📐</div>
+            <h3>Unit Converter</h3>
+            <p>Convert length, weight, temperature, volume, speed, and area between metric and imperial.</p>
+            <span class="tool-tag tag-convert">Converter</span>
+          </a>
+          <a href="tools/currency.html" class="tool-card" data-name="currency exchange rate converter money">
+            <div class="tool-card-icon" style="background:var(--blue-bg);color:var(--blue)">💱</div>
+            <h3>Currency Converter</h3>
+            <p>Convert between 150+ currencies with live exchange rates. Updated regularly.</p>
+            <span class="tool-tag tag-convert">Converter</span>
+          </a>
+          <a href="tools/timezone.html" class="tool-card" data-name="timezone world clock time zone converter">
+            <div class="tool-card-icon" style="background:var(--blue-bg);color:var(--blue)">🕐</div>
+            <h3>Time Zone Converter</h3>
+            <p>Convert time between any two time zones. See world clock and meeting time suggestions.</p>
+            <span class="tool-tag tag-convert">Converter</span>
+          </a>
+          <a href="tools/number-base.html" class="tool-card" data-name="number base binary hex decimal octal converter">
+            <div class="tool-card-icon" style="background:var(--blue-bg);color:var(--blue)">🔢</div>
+            <h3>Number Base Converter</h3>
+            <p>Convert between binary, octal, decimal, hexadecimal, and other number bases.</p>
+            <span class="tool-tag tag-convert">Converter</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Text Tools -->
+      <section class="section tool-section" id="text">
+        <h2 class="section-title">📝 Text Utilities</h2>
+        <p class="section-sub">Text manipulation, analysis, and generation tools.</p>
+        <div class="tool-grid">
+          <a href="tools/word-counter.html" class="tool-card" data-name="word counter character count text length analyzer">
+            <div class="tool-card-icon" style="background:var(--yellow-bg);color:var(--yellow)">📊</div>
+            <h3>Word & Character Counter</h3>
+            <p>Count words, characters, sentences, and paragraphs in real-time. Reading time included.</p>
+            <span class="tool-tag tag-text">Text</span>
+          </a>
+          <a href="tools/case-converter.html" class="tool-card" data-name="case converter uppercase lowercase camelcase text">
+            <div class="tool-card-icon" style="background:var(--yellow-bg);color:var(--yellow)">🔤</div>
+            <h3>Case Converter</h3>
+            <p>Convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case, and more.</p>
+            <span class="tool-tag tag-text">Text</span>
+          </a>
+          <a href="tools/lorem-ipsum.html" class="tool-card" data-name="lorem ipsum placeholder text generator dummy">
+            <div class="tool-card-icon" style="background:var(--yellow-bg);color:var(--yellow)">📄</div>
+            <h3>Lorem Ipsum Generator</h3>
+            <p>Generate placeholder text for designs and mockups. Customizable paragraph count.</p>
+            <span class="tool-tag tag-text">Text</span>
+          </a>
+          <a href="tools/regex-tester.html" class="tool-card" data-name="regex regular expression tester validator">
+            <div class="tool-card-icon" style="background:var(--yellow-bg);color:var(--yellow)">🔍</div>
+            <h3>Regex Tester</h3>
+            <p>Test regular expressions with live matching. See highlights and match groups instantly.</p>
+            <span class="tool-tag tag-text">Text</span>
+          </a>
+          <a href="tools/password-gen.html" class="tool-card" data-name="password generator random secure strong">
+            <div class="tool-card-icon" style="background:var(--yellow-bg);color:var(--yellow)">🔐</div>
+            <h3>Password Generator</h3>
+            <p>Generate strong, random passwords with customizable length and character types.</p>
+            <span class="tool-tag tag-text">Text</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- AI Tools -->
+      <section class="section tool-section" id="ai">
+        <h2 class="section-title">🤖 AI Tools</h2>
+        <p class="section-sub">Compare AI tools and find the best ones for your needs.</p>
+        <div class="tool-grid">
+          <a href="tools/ai-compare.html" class="tool-card" data-name="ai tools comparison chatgpt gemini claude compare">
+            <div class="tool-card-icon" style="background:rgba(168,85,247,0.1);color:#a855f7">🧠</div>
+            <h3>AI Tool Comparison</h3>
+            <p>Compare ChatGPT, Gemini, Claude, and other AI models side by side on features, pricing, and capabilities.</p>
+            <span class="tool-tag tag-ai">AI</span>
+          </a>
+          <a href="tools/ai-pricing.html" class="tool-card" data-name="ai pricing calculator cost api openai anthropic google">
+            <div class="tool-card-icon" style="background:rgba(168,85,247,0.1);color:#a855f7">💰</div>
+            <h3>AI API Pricing Calculator</h3>
+            <p>Calculate costs for OpenAI, Anthropic, and Google AI APIs based on your expected usage.</p>
+            <span class="tool-tag tag-ai">AI</span>
+          </a>
+          <a href="tools/ai-prompt.html" class="tool-card" data-name="ai prompt generator template helper">
+            <div class="tool-card-icon" style="background:rgba(168,85,247,0.1);color:#a855f7">✨</div>
+            <h3>AI Prompt Generator</h3>
+            <p>Generate optimized prompts for ChatGPT, Claude, and other AI tools for various use cases.</p>
+            <span class="tool-tag tag-ai">AI</span>
+          </a>
+          <a href="tools/ai-park.html" class="tool-card" data-name="ai character park builder pokemon rpg">
+            <div class="tool-card-icon" style="background:rgba(168,85,247,0.1);color:#a855f7">🎡</div>
+            <h3>AI Theme Park Builder</h3>
+            <p>Design and manage your own AI theme park with rides, guests, and budget management.</p>
+            <span class="tool-tag tag-ai">AI</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Developer -->
+      <section class="section tool-section" id="dev">
+        <h2 class="section-title">👨‍💻 Developer Tools</h2>
+        <p class="section-sub">Utilities for developers and power users.</p>
+        <div class="tool-grid">
+          <a href="tools/hash.html" class="tool-card" data-name="hash generator md5 sha256 checksum">
+            <div class="tool-card-icon" style="background:rgba(236,72,153,0.1);color:#ec4899">#️⃣</div>
+            <h3>Hash Generator</h3>
+            <p>Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input.</p>
+            <span class="tool-tag tag-dev">Developer</span>
+          </a>
+          <a href="tools/color.html" class="tool-card" data-name="color picker converter hex rgb hsl format">
+            <div class="tool-card-icon" style="background:rgba(236,72,153,0.1);color:#ec4899">🎨</div>
+            <h3>Color Converter</h3>
+            <p>Convert between HEX, RGB, HSL, and HSV color formats. Pick colors visually.</p>
+            <span class="tool-tag tag-dev">Developer</span>
+          </a>
+          <a href="tools/json.html" class="tool-card" data-name="json formatter validator minify prettify">
+            <div class="tool-card-icon" style="background:rgba(236,72,153,0.1);color:#ec4899">{ }</div>
+            <h3>JSON Formatter</h3>
+            <p>Format, validate, minify, and pretty-print JSON data. Detect errors instantly.</p>
+            <span class="tool-tag tag-dev">Developer</span>
+          </a>
+          <a href="tools/qr.html" class="tool-card" data-name="qr code generator url text">
+            <div class="tool-card-icon" style="background:rgba(236,72,153,0.1);color:#ec4899">📱</div>
+            <h3>QR Code Generator</h3>
+            <p>Generate QR codes from text, URLs, or contact info. Download as PNG.</p>
+            <span class="tool-tag tag-dev">Developer</span>
+          </a>
+          <a href="tools/uuid.html" class="tool-card" data-name="uuid guid generator unique identifier">
+            <div class="tool-card-icon" style="background:rgba(236,72,153,0.1);color:#ec4899">🔑</div>
+            <h3>UUID Generator</h3>
+            <p>Generate UUID v4 unique identifiers. Batch generate up to 100 at once.</p>
+            <span class="tool-tag tag-dev">Developer</span>
+          </a>
+          <a href="tools/base64.html" class="tool-card" data-name="base64 encode decode convert text">
+            <div class="tool-card-icon" style="background:rgba(236,72,153,0.1);color:#ec4899">🔐</div>
+            <h3>Base64 Encoder/Decoder</h3>
+            <p>Encode and decode Base64 strings instantly. Handles text and URLs.</p>
+            <span class="tool-tag tag-dev">Developer</span>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <div class="container">
+      <div class="ad-slot">Advertisement</div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/sitemap.xml">Sitemap</a>
+      <a href="https://github.com/yourusername/quicktools">GitHub</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#terms">Terms</a>
+    </div>
+    <p>&copy; 2026 QuickTools. Free online utilities. All tools run in your browser — no data is sent to any server.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

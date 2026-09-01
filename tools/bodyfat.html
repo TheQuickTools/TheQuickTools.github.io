@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body Fat Percentage Calculator | QuickTools</title>
+  <meta name="description" content="Free body fat percentage calculator using the US Navy method. Estimate your body fat and understand fitness categories.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#health" class="nav-link active">Health</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#health">Health</a> <span>/</span> Body Fat Calculator</div>
+    <h1>Body Fat Percentage Calculator</h1>
+    <p class="tool-desc">Estimate your body fat percentage using the US Navy method. No calipers needed.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="setBFUnit('metric')">Metric</button>
+      <button class="tab-btn" onclick="setBFUnit('imperial')">Imperial</button>
+    </div>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div class="form-group"><label>Gender</label>
+        <select id="bfGender"><option value="male">Male</option><option value="female">Female</option></select>
+      </div>
+      <div id="bfMetric">
+        <div class="form-row">
+          <div class="form-group"><label>Waist (cm)</label><input type="number" id="bfWaist" value="85"></div>
+          <div class="form-group"><label>Neck (cm)</label><input type="number" id="bfNeck" value="40"></div>
+        </div>
+        <div class="form-group"><label>Height (cm)</label><input type="number" id="bfHeight" value="175"></div>
+      </div>
+      <div id="bfImperial" style="display:none;">
+        <div class="form-row">
+          <div class="form-group"><label>Waist (inches)</label><input type="number" id="bfWaistIn" value="33"></div>
+          <div class="form-group"><label>Neck (inches)</label><input type="number" id="bfNeckIn" value="16"></div>
+        </div>
+        <div class="form-group"><label>Height (inches)</label><input type="number" id="bfHeightIn" value="69"></div>
+      </div>
+      <div class="form-group"><button class="btn btn-primary" style="width:100%" onclick="calcBF()">Calculate</button></div>
+    </div>
+
+    <div id="bfResults" style="display:none;">
+      <div class="result-card" style="text-align:center;">
+        <div class="result-label">Body Fat Percentage</div>
+        <div class="result-value" id="bfValue">0%</div>
+        <div id="bfCat" class="badge" style="margin-top:8px;"></div>
+      </div>
+      <div class="result-card">
+        <h3 style="font-size:1rem;margin-bottom:16px;">Body Fat Categories (Men)</h3>
+        <div class="result-details">
+          <div class="result-row"><span>Essential Fat</span><span>2-5%</span></div>
+          <div class="result-row"><span>Athletes</span><span>6-13%</span></div>
+          <div class="result-row"><span>Fitness</span><span>14-17%</span></div>
+          <div class="result-row"><span>Average</span><span>18-24%</span></div>
+          <div class="result-row"><span>Obese</span><span>25%+</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    let bfMetric = true;
+    function setBFUnit(u) {
+      bfMetric = u === 'metric';
+      document.querySelectorAll('.tabs .tab-btn').forEach((b,i) => b.classList.toggle('active', i===(bfMetric?0:1)));
+      document.getElementById('bfMetric').style.display = bfMetric?'':'none';
+      document.getElementById('bfImperial').style.display = bfMetric?'none':'';
+      calcBF();
+    }
+
+    function calcBF() {
+      const gender = document.getElementById('bfGender').value;
+      let waist, neck, height;
+      if (bfMetric) {
+        waist = parseFloat(document.getElementById('bfWaist').value);
+        neck = parseFloat(document.getElementById('bfNeck').value);
+        height = parseFloat(document.getElementById('bfHeight').value);
+      } else {
+        waist = parseFloat(document.getElementById('bfWaistIn').value) * 2.54;
+        neck = parseFloat(document.getElementById('bfNeckIn').value) * 2.54;
+        height = parseFloat(document.getElementById('bfHeightIn').value) * 2.54;
+      }
+      if (!waist || !neck || !height) return;
+
+      let bf;
+      if (gender === 'male') {
+        bf = 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height)) - 450;
+      } else {
+        bf = 495 / (1.29579 - 0.35004 * Math.log10(waist + 10 - neck) + 0.22100 * Math.log10(height)) - 450;
+      }
+      bf = Math.max(2, Math.min(60, bf));
+
+      let cat, cls;
+      if (gender === 'male') {
+        if (bf < 6) { cat = 'Athletes'; cls = 'badge-green'; }
+        else if (bf < 14) { cat = 'Fitness'; cls = 'badge-green'; }
+        else if (bf < 18) { cat = 'Average'; cls = 'badge-yellow'; }
+        else { cat = 'Above Average'; cls = 'badge-red'; }
+      } else {
+        if (bf < 14) { cat = 'Athletes'; cls = 'badge-green'; }
+        else if (bf < 21) { cat = 'Fitness'; cls = 'badge-green'; }
+        else if (bf < 25) { cat = 'Average'; cls = 'badge-yellow'; }
+        else { cat = 'Above Average'; cls = 'badge-red'; }
+      }
+
+      document.getElementById('bfValue').textContent = bf.toFixed(1) + '%';
+      const badge = document.getElementById('bfCat');
+      badge.textContent = cat;
+      badge.className = 'badge ' + cls;
+      document.getElementById('bfResults').style.display = 'block';
+    }
+    calcBF();
+  </script>
+</body>
+</html>

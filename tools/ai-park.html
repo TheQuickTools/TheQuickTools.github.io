@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Theme Park Builder - Build Your Dream Park | QuickTools</title>
+  <meta name="description" content="Build and manage your own AI-powered theme park! Design rides, manage budget, hire staff, and keep guests happy in this browser-based simulator.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#ai" class="nav-link active">AI Tools</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#ai">AI Tools</a> <span>/</span> AI Theme Park Builder</div>
+    <h1>🎡 AI Theme Park Builder</h1>
+    <p class="tool-desc">Design and manage your own theme park! Build rides, set prices, hire staff, and watch guests come flocking.</p>
+
+    <!-- Stats Bar -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:20px;">
+      <div class="result-card" style="text-align:center;padding:12px;">
+        <div class="result-label">Money</div>
+        <div style="font-weight:800;font-size:1.1rem;color:var(--green);" id="pkMoney">$50,000</div>
+      </div>
+      <div class="result-card" style="text-align:center;padding:12px;">
+        <div class="result-label">Guests</div>
+        <div style="font-weight:800;font-size:1.1rem;" id="pkGuests">0</div>
+      </div>
+      <div class="result-card" style="text-align:center;padding:12px;">
+        <div class="result-label">Happiness</div>
+        <div style="font-weight:800;font-size:1.1rem;" id="pkHappy">75%</div>
+      </div>
+      <div class="result-card" style="text-align:center;padding:12px;">
+        <div class="result-label">Day</div>
+        <div style="font-weight:800;font-size:1.1rem;" id="pkDay">1</div>
+      </div>
+    </div>
+
+    <!-- Build Panel -->
+    <div class="result-card">
+      <h3 style="font-size:1rem;margin-bottom:12px;">🏗️ Build Rides</h3>
+      <div id="rideShop" style="display:grid;gap:8px;"></div>
+    </div>
+
+    <!-- Park View -->
+    <div class="result-card">
+      <h3 style="font-size:1rem;margin-bottom:12px;">🎡 Your Park</h3>
+      <div id="parkView" style="display:grid;gap:8px;">
+        <div style="color:var(--text-dim);text-align:center;padding:20px;">No rides yet. Build your first ride!</div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+      <button class="btn btn-primary" onclick="nextDay()">⏩ Next Day</button>
+      <button class="btn btn-secondary" onclick="buildFacility('food')">🍔 Build Food Stand ($2,000)</button>
+      <button class="btn btn-secondary" onclick="buildFacility('bath')">🚻 Build Restroom ($1,000)</button>
+      <button class="btn btn-secondary" onclick="buildFacility('bench')">🪑 Build Benches ($200)</button>
+    </div>
+
+    <!-- Event Log -->
+    <div class="result-card" style="margin-top:16px;">
+      <h3 style="font-size:1rem;margin-bottom:12px;">📋 Event Log</h3>
+      <div id="eventLog" style="max-height:200px;overflow-y:auto;font-size:0.85rem;color:var(--text-muted);"></div>
+    </div>
+  </main>
+
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools. All game data stays in your browser.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    const rides = [
+      { id:'roller', name:'🎢 Roller Coaster', cost:15000, thrill:90, capacity:24, maintenance:500, emoji:'🎢' },
+      { id:'ferris', name:'🎡 Ferris Wheel', cost:8000, thrill:40, capacity:16, maintenance:200, emoji:'🎡' },
+      { id:'carousel', name:'🎠 Carousel', cost:5000, thrill:30, capacity:20, maintenance:150, emoji:'🎠' },
+      { id:'haunted', name:'👻 Haunted House', cost:12000, thrill:80, capacity:8, maintenance:400, emoji:'👻' },
+      { id:'water', name:'💦 Water Ride', cost:18000, thrill:70, capacity:12, maintenance:600, emoji:'💦' },
+      { id:'bumper', name:'🚗 Bumper Cars', cost:7000, thrill:50, capacity:10, maintenance:300, emoji:'🚗' },
+      { id:'drop', name:'🎯 Drop Tower', cost:20000, thrill:95, capacity:8, maintenance:700, emoji:'🎯' },
+      { id:'spinning', name:'🍵 Teacups', cost:4000, thrill:25, capacity:16, maintenance:100, emoji:'🍵' },
+    ];
+
+    let park = { money:50000, guests:0, happiness:75, day:1, built:[], facilities:{food:0,bath:0,bench:0}, revenue:0 };
+
+    function renderShop() {
+      const shop = document.getElementById('rideShop');
+      shop.innerHTML = '';
+      rides.forEach(r => {
+        const canAfford = park.money >= r.cost;
+        shop.innerHTML += `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--bg-input);border-radius:var(--radius-sm);">
+          <div><strong>${r.name}</strong><br><span style="font-size:0.8rem;color:var(--text-dim);">Thrill: ${r.thrill} | Capacity: ${r.capacity}/ride | Upkeep: $${r.maintenance}/day</span></div>
+          <button class="btn ${canAfford?'btn-primary':'btn-secondary'}" style="padding:8px 16px;font-size:0.85rem;white-space:nowrap;" ${canAfford?'':'disabled'} onclick="buildRide('${r.id}')">$${r.cost.toLocaleString()}</button>
+        </div>`;
+      });
+    }
+
+    function buildRide(id) {
+      const ride = rides.find(r => r.id === id);
+      if (!ride || park.money < ride.cost) return;
+      park.money -= ride.cost;
+      park.built.push({ ...ride, condition:100 });
+      log(`Built ${ride.name} for $${ride.cost.toLocaleString()}`);
+      renderPark(); renderShop(); updateStats();
+    }
+
+    function buildFacility(type) {
+      const costs = { food:2000, bath:1000, bench:200 };
+      if (park.money < costs[type]) return;
+      park.money -= costs[type];
+      park.facilities[type]++;
+      log(`Built a new ${type === 'food' ? 'Food Stand' : type === 'bath' ? 'Restroom' : 'Bench Set'}`);
+      updateStats();
+    }
+
+    function renderPark() {
+      const view = document.getElementById('parkView');
+      if (park.built.length === 0) {
+        view.innerHTML = '<div style="color:var(--text-dim);text-align:center;padding:20px;">No rides yet!</div>';
+        return;
+      }
+      view.innerHTML = '';
+      park.built.forEach((r, i) => {
+        view.innerHTML += `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--bg-input);border-radius:var(--radius-sm);">
+          <div>${r.emoji} <strong>${r.name}</strong> — Condition: <span style="color:${r.condition>70?'var(--green)':r.condition>40?'var(--yellow)':'var(--red)'}">${r.condition}%</span></div>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-secondary" style="padding:4px 10px;font-size:0.8rem;" onclick="repairRide(${i})">🔧 Fix ($${Math.round((100-r.condition)*r.maintenance/50)})</button>
+            <button class="btn btn-secondary" style="padding:4px 10px;font-size:0.8rem;color:var(--red);" onclick="demolishRide(${i})">🗑️</button>
+          </div>
+        </div>`;
+      });
+    }
+
+    function repairRide(i) {
+      const r = park.built[i];
+      const cost = Math.round((100 - r.condition) * r.maintenance / 50);
+      if (park.money < cost) return;
+      park.money -= cost;
+      r.condition = 100;
+      log(`Repaired ${r.name} for $${cost}`);
+      renderPark(); updateStats();
+    }
+
+    function demolishRide(i) {
+      const r = park.built[i];
+      const refund = Math.round(r.cost * 0.3);
+      park.money += refund;
+      park.built.splice(i, 1);
+      log(`Demolished ${r.name} (refunded $${refund})`);
+      renderPark(); renderShop(); updateStats();
+    }
+
+    function nextDay() {
+      park.day++;
+      let dailyRevenue = 0;
+      let totalThrill = 0;
+
+      // Guests arrive based on park appeal
+      const totalRides = park.built.length;
+      const avgThrill = totalRides > 0 ? park.built.reduce((s,r) => s + r.thrill, 0) / totalRides : 0;
+      const hasFood = park.facilities.food > 0;
+      const hasBath = park.facilities.bath > 0;
+
+      const appeal = (totalRides * 20) + (avgThrill * 0.5) + (hasFood ? 15 : 0) + (hasBath ? 10 : 0);
+      const newGuests = Math.floor(Math.random() * appeal / 5);
+      park.guests += newGuests;
+
+      // Revenue per guest
+      const ticketPrice = 25;
+      dailyRevenue = park.guests * ticketPrice;
+      const foodRevenue = hasFood ? park.guests * 8 : 0;
+      dailyRevenue += foodRevenue;
+
+      // Costs
+      let maintenance = 0;
+      park.built.forEach(r => {
+        maintenance += r.maintenance;
+        r.condition = Math.max(0, r.condition - Math.random() * 8 - 2);
+      });
+
+      // Happiness calculation
+      const brokenRides = park.built.filter(r => r.condition < 30).length;
+      const happyChange = (hasFood ? 2 : -3) + (hasBath ? 1 : -2) - (brokenRides * 5) + (newGuests > 5 ? 2 : -1);
+      park.happiness = Math.max(0, Math.min(100, park.happiness + happyChange));
+
+      // Guests leave if unhappy
+      if (park.happiness < 30) {
+        const leaving = Math.floor(park.guests * 0.2);
+        park.guests -= leaving;
+        log(`${leaving} guests left due to low happiness!`);
+      }
+
+      park.money += dailyRevenue - maintenance;
+      park.revenue = dailyRevenue;
+
+      log(`Day ${park.day}: ${newGuests} new guests | Revenue: $${dailyRevenue.toLocaleString()} | Maintenance: -$${maintenance.toLocaleString()}`);
+
+      renderPark(); renderShop(); updateStats();
+    }
+
+    function updateStats() {
+      document.getElementById('pkMoney').textContent = '$' + park.money.toLocaleString();
+      document.getElementById('pkMoney').style.color = park.money >= 0 ? 'var(--green)' : 'var(--red)';
+      document.getElementById('pkGuests').textContent = park.guests.toLocaleString();
+      document.getElementById('pkHappy').textContent = park.happiness + '%';
+      document.getElementById('pkHappy').style.color = park.happiness > 70 ? 'var(--green)' : park.happiness > 40 ? 'var(--yellow)' : 'var(--red)';
+      document.getElementById('pkDay').textContent = park.day;
+    }
+
+    function log(msg) {
+      const el = document.getElementById('eventLog');
+      el.innerHTML = `<div style="padding:4px 0;border-bottom:1px solid var(--border);">Day ${park.day}: ${msg}</div>` + el.innerHTML;
+    }
+
+    // Init
+    renderShop(); renderPark(); updateStats();
+    log('Welcome to AI Theme Park Builder! Start by building your first ride.');
+  </script>
+</body>
+</html>

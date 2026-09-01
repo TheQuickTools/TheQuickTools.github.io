@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Formatter - Validate, Format, Minify | QuickTools</title>
+  <meta name="description" content="Free JSON formatter. Format, validate, minify, and pretty-print JSON data. Detect errors instantly.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#dev" class="nav-link active">Developer</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#dev">Developer</a> <span>/</span> JSON Formatter</div>
+    <h1>JSON Formatter</h1>
+    <p class="tool-desc">Format, validate, minify, and pretty-print JSON data.</p>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div class="form-group"><label>Paste JSON</label><textarea id="jsonInput" rows="10" oninput="fmtJson()" placeholder='{"key": "value"}' style="font-family:var(--font-mono);font-size:0.9rem;"></textarea></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="fmtJson()">Format</button>
+        <button class="btn btn-secondary" onclick="minifyJson()">Minify</button>
+        <button class="btn btn-secondary" onclick="copyText(document.getElementById('jsonOutput').textContent)">Copy</button>
+        <span id="jsonStatus" class="badge" style="align-self:center;"></span>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-label">Output</div>
+      <pre id="jsonOutput" style="font-family:var(--font-mono);font-size:0.85rem;white-space:pre-wrap;word-break:break-all;padding:8px 0;margin:0;color:var(--text-muted);"></pre>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    document.getElementById('jsonInput').value = JSON.stringify({name:"QuickTools",version:1,tools:["calculator","converter","text"],features:{darkMode:true,offline:true},tags:["free","fast","private"]},null,2);
+
+    function fmtJson() {
+      try {
+        const obj = JSON.parse(document.getElementById('jsonInput').value);
+        document.getElementById('jsonOutput').textContent = JSON.stringify(obj, null, 2);
+        document.getElementById('jsonStatus').textContent = 'Valid JSON';
+        document.getElementById('jsonStatus').className = 'badge badge-green';
+      } catch(e) {
+        document.getElementById('jsonOutput').textContent = e.message;
+        document.getElementById('jsonStatus').textContent = 'Invalid JSON';
+        document.getElementById('jsonStatus').className = 'badge badge-red';
+      }
+    }
+
+    function minifyJson() {
+      try {
+        const obj = JSON.parse(document.getElementById('jsonInput').value);
+        document.getElementById('jsonOutput').textContent = JSON.stringify(obj);
+        document.getElementById('jsonStatus').textContent = 'Minified';
+        document.getElementById('jsonStatus').className = 'badge badge-green';
+      } catch(e) {
+        document.getElementById('jsonOutput').textContent = e.message;
+        document.getElementById('jsonStatus').textContent = 'Invalid JSON';
+        document.getElementById('jsonStatus').className = 'badge badge-red';
+      }
+    }
+    fmtJson();
+  </script>
+</body>
+</html>

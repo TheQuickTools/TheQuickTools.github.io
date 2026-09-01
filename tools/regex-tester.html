@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regex Tester - Regular Expression Validator | QuickTools</title>
+  <meta name="description" content="Free regex tester. Test regular expressions with live matching, highlights, and match groups. Supports JavaScript regex.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#text" class="nav-link active">Text</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#text">Text</a> <span>/</span> Regex Tester</div>
+    <h1>Regex Tester</h1>
+    <p class="tool-desc">Test regular expressions with live matching and match group extraction.</p>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div class="form-group"><label>Regular Expression</label><input type="text" id="rxPattern" value="\b[A-Z][a-z]+\b" oninput="testRegex()" style="font-family:var(--font-mono);"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Flags</label><input type="text" id="rxFlags" value="g" oninput="testRegex()" style="font-family:var(--font-mono);width:80px;"></div>
+        <div class="form-group"><label>Quick Patterns</label>
+          <select onchange="if(this.value){document.getElementById('rxPattern').value=this.value;testRegex();}">
+            <option value="">Choose...</option>
+            <option value="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">Email</option>
+            <option value="https?://[^\s]+">URL</option>
+            <option value="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}">IPv4 Address</option>
+            <option value="\(\d{3}\)\s*\d{3}-\d{4}">US Phone</option>
+            <option value="#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})">Hex Color</option>
+            <option value="\b\d{1,2}/\d{1,2}/\d{2,4}\b">Date (MM/DD/YYYY)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Test String</label><textarea id="rxText" rows="4" oninput="testRegex()" style="font-size:0.95rem;">Hello World! Contact us at support@example.com or sales@company.org. Visit https://example.com for more info. Call (555) 123-4567.</textarea></div>
+    </div>
+
+    <div class="result-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span class="result-label">Matches (<span id="rxCount">0</span>)</span>
+      </div>
+      <div id="rxMatches" style="font-family:var(--font-mono);font-size:0.9rem;line-height:1.8;"></div>
+    </div>
+
+    <div class="result-card" id="rxGroupsCard" style="display:none;">
+      <span class="result-label">Match Groups</span>
+      <div id="rxGroups" class="result-details"></div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    function testRegex() {
+      const pattern = document.getElementById('rxPattern').value;
+      const flags = document.getElementById('rxFlags').value;
+      const text = document.getElementById('rxText').value;
+      const matchesDiv = document.getElementById('rxMatches');
+      const groupsDiv = document.getElementById('rxGroups');
+      const countSpan = document.getElementById('rxCount');
+      const groupsCard = document.getElementById('rxGroupsCard');
+
+      if (!pattern) { matchesDiv.innerHTML = '<span style="color:var(--text-dim)">Enter a regex pattern</span>'; return; }
+
+      try {
+        const regex = new RegExp(pattern, flags);
+        let matches = [];
+        let match;
+        const re = new RegExp(pattern, flags.includes('g') ? flags : flags + 'g');
+
+        while ((match = re.exec(text)) !== null) {
+          matches.push({ value: match[0], index: match.index, groups: match.slice(1) });
+          if (!flags.includes('g')) break;
+        }
+
+        countSpan.textContent = matches.length;
+
+        let highlighted = text;
+        matches.sort((a,b) => b.index - a.index);
+        matches.forEach(m => {
+          highlighted = highlighted.slice(0, m.index) +
+            `<mark style="background:var(--accent-glow);color:var(--accent);padding:1px 2px;border-radius:3px;">${m.value}</mark>` +
+            highlighted.slice(m.index + m.value.length);
+        });
+        matchesDiv.innerHTML = highlighted || '<span style="color:var(--text-dim)">No matches</span>';
+
+        if (matches.length > 0 && matches[0].groups.length > 0) {
+          groupsDiv.innerHTML = '';
+          matches[0].groups.forEach((g, i) => {
+            groupsDiv.innerHTML += `<div class="result-row"><span>Group ${i+1}</span><span style="font-family:var(--font-mono)">${g || '(empty)'}</span></div>`;
+          });
+          groupsCard.style.display = '';
+        } else {
+          groupsCard.style.display = 'none';
+        }
+      } catch(e) {
+        matchesDiv.innerHTML = `<span style="color:var(--red)">Error: ${e.message}</span>`;
+        countSpan.textContent = '0';
+        groupsCard.style.display = 'none';
+      }
+    }
+    testRegex();
+  </script>
+</body>
+</html>

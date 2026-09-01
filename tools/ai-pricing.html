@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI API Pricing Calculator - OpenAI, Claude, Gemini | QuickTools</title>
+  <meta name="description" content="Calculate costs for OpenAI, Anthropic, and Google AI APIs. Compare pricing across models and estimate your monthly bill.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#ai" class="nav-link active">AI Tools</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#ai">AI Tools</a> <span>/</span> AI API Pricing</div>
+    <h1>AI API Pricing Calculator</h1>
+    <p class="tool-desc">Estimate costs for popular AI APIs based on your usage patterns.</p>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div class="form-group"><label>Model</label>
+        <select id="apiModel" onchange="calcAPI()">
+          <option value="gpt4o">GPT-4o (OpenAI) - $2.50/$10 per 1M</option>
+          <option value="gpt4o-mini">GPT-4o-mini (OpenAI) - $0.15/$0.60 per 1M</option>
+          <option value="claude-opus">Claude Opus 4 (Anthropic) - $15/$75 per 1M</option>
+          <option value="claude-sonnet">Claude Sonnet 4 (Anthropic) - $3/$15 per 1M</option>
+          <option value="gemini-pro">Gemini 2.5 Pro (Google) - $1.25/$5 per 1M</option>
+          <option value="gemini-flash">Gemini 2.5 Flash (Google) - $0.15/$0.60 per 1M</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Input Tokens / Month</label><input type="number" id="apiInput" value="500000" oninput="calcAPI()"></div>
+        <div class="form-group"><label>Output Tokens / Month</label><input type="number" id="apiOutput" value="200000" oninput="calcAPI()"></div>
+      </div>
+      <div class="form-group"><label>Requests / Day</label><input type="number" id="apiReqs" value="100" oninput="calcAPI()"></div>
+    </div>
+
+    <div class="result-card" style="text-align:center;">
+      <div class="result-label">Estimated Monthly Cost</div>
+      <div class="result-value" id="apiCost">$0.00</div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-details">
+        <div class="result-row"><span>Input Cost</span><span id="apiInputCost">-</span></div>
+        <div class="result-row"><span>Output Cost</span><span id="apiOutputCost">-</span></div>
+        <div class="result-row"><span>Tokens per Request (avg)</span><span id="apiTokenReq">-</span></div>
+        <div class="result-row"><span>Cost per Request</span><span id="apiCostReq">-</span></div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <h3 style="font-size:1rem;margin-bottom:12px;">All Models Comparison</h3>
+      <div class="result-details" id="apiCompare"></div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools. Prices approximate — check provider sites.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    const models = {
+      'gpt4o': { name:'GPT-4o', input:2.50, output:10 },
+      'gpt4o-mini': { name:'GPT-4o-mini', input:0.15, output:0.60 },
+      'claude-opus': { name:'Claude Opus 4', input:15, output:75 },
+      'claude-sonnet': { name:'Claude Sonnet 4', input:3, output:15 },
+      'gemini-pro': { name:'Gemini 2.5 Pro', input:1.25, output:5 },
+      'gemini-flash': { name:'Gemini 2.5 Flash', input:0.15, output:0.60 }
+    };
+
+    function calcAPI() {
+      const model = document.getElementById('apiModel').value;
+      const inputTok = parseInt(document.getElementById('apiInput').value) || 0;
+      const outputTok = parseInt(document.getElementById('apiOutput').value) || 0;
+      const reqs = parseInt(document.getElementById('apiReqs').value) || 0;
+      const m = models[model];
+
+      const inputCost = (inputTok / 1000000) * m.input;
+      const outputCost = (outputTok / 1000000) * m.output;
+      const total = inputCost + outputCost;
+      const costPerReq = reqs > 0 ? total / (reqs * 30) : 0;
+      const tokensPerReq = reqs > 0 ? (inputTok + outputTok) / (reqs * 30) : 0;
+
+      document.getElementById('apiCost').textContent = '$' + total.toFixed(2);
+      document.getElementById('apiInputCost').textContent = '$' + inputCost.toFixed(2);
+      document.getElementById('apiOutputCost').textContent = '$' + outputCost.toFixed(2);
+      document.getElementById('apiTokenReq').textContent = Math.round(tokensPerReq).toLocaleString();
+      document.getElementById('apiCostReq').textContent = '$' + costPerReq.toFixed(4);
+
+      const compare = document.getElementById('apiCompare');
+      compare.innerHTML = '';
+      Object.values(models).forEach(mm => {
+        const ic = (inputTok / 1000000) * mm.input;
+        const oc = (outputTok / 1000000) * mm.output;
+        const t = ic + oc;
+        const highlight = mm.name === m.name ? 'color:var(--accent)' : '';
+        compare.innerHTML += `<div class="result-row"><span style="${highlight}">${mm.name}</span><span style="${highlight}">$${t.toFixed(2)}/mo</span></div>`;
+      });
+    }
+    calcAPI();
+  </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salary Calculator - Hourly, Weekly, Monthly, Annual | QuickTools</title>
+  <meta name="description" content="Free salary calculator. Convert between hourly, weekly, biweekly, monthly, and annual salary. See take-home pay after taxes.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#finance" class="nav-link active">Finance</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#finance">Finance</a> <span>/</span> Salary Calculator</div>
+    <h1>Salary Calculator</h1>
+    <p class="tool-desc">Convert your salary between hourly, weekly, biweekly, monthly, and annual. See estimated take-home pay.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="setSalaryTab('hourly')">Hourly</button>
+      <button class="tab-btn" onclick="setSalaryTab('annual')">Annual</button>
+      <button class="tab-btn" onclick="setSalaryTab('monthly')">Monthly</button>
+    </div>
+
+    <div class="result-card" style="background:transparent;border:none;padding:0;">
+      <div id="tab-hourly">
+        <div class="form-row">
+          <div class="form-group"><label>Hourly Rate ($)</label><input type="number" id="hourlyRate" value="25" step="0.01"></div>
+          <div class="form-group"><label>Hours Per Week</label><input type="number" id="hoursWeek" value="40" min="1" max="80"></div>
+        </div>
+      </div>
+      <div id="tab-annual" style="display:none;">
+        <div class="form-group"><label>Annual Salary ($)</label><input type="text" id="annualSalary" value="65,000" inputmode="numeric"></div>
+      </div>
+      <div id="tab-monthly" style="display:none;">
+        <div class="form-group"><label>Monthly Salary ($)</label><input type="text" id="monthlySalary" value="5,416" inputmode="numeric"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>State</label>
+          <select id="taxState">
+            <option value="0">No State Tax</option>
+            <option value="4">California (4%)</option>
+            <option value="5">New York (5%)</option>
+            <option value="3">Texas (0%)</option>
+            <option value="4.5">Florida (4.5%)</option>
+            <option value="5">Illinois (5%)</option>
+            <option value="6">Oregon (6%)</option>
+          </select>
+        </div>
+        <div class="form-group" style="display:flex;align-items:flex-end;"><button class="btn btn-primary" style="width:100%" onclick="calcSalary()">Calculate</button></div>
+      </div>
+    </div>
+
+    <div id="salaryResults" style="display:none;">
+      <div class="result-card" style="text-align:center;">
+        <div class="result-label">Take-Home Monthly</div>
+        <div class="result-value" id="takeHome">$0</div>
+      </div>
+      <div class="result-card">
+        <div class="result-details">
+          <div class="result-row"><span>Hourly</span><span id="sHourly">-</span></div>
+          <div class="result-row"><span>Daily (8hr)</span><span id="sDaily">-</span></div>
+          <div class="result-row"><span>Weekly</span><span id="sWeekly">-</span></div>
+          <div class="result-row"><span>Biweekly</span><span id="sBiweekly">-</span></div>
+          <div class="result-row"><span>Monthly (Gross)</span><span id="sMonthly">-</span></div>
+          <div class="result-row"><span>Annual (Gross)</span><span id="sAnnual">-</span></div>
+          <div class="result-row"><span>Federal Tax (~22%)</span><span id="sFedTax" style="color:var(--red)">-</span></div>
+          <div class="result-row"><span>State Tax</span><span id="sStateTax" style="color:var(--red)">-</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    function setSalaryTab(tab) {
+      document.querySelectorAll('.tabs .tab-btn').forEach((b,i) => {
+        b.classList.toggle('active', ['hourly','annual','monthly'][i] === tab);
+      });
+      ['hourly','annual','monthly'].forEach(t => {
+        document.getElementById('tab-'+t).style.display = t===tab ? '' : 'none';
+      });
+      calcSalary();
+    }
+
+    function calcSalary() {
+      let annual = 0;
+      const activeTab = document.querySelector('.tab-btn.active').textContent.toLowerCase();
+      if (activeTab === 'hourly') {
+        const rate = parseFloat(document.getElementById('hourlyRate').value) || 0;
+        const hrs = parseFloat(document.getElementById('hoursWeek').value) || 40;
+        annual = rate * hrs * 52;
+      } else if (activeTab === 'annual') {
+        annual = parseFloat(document.getElementById('annualSalary').value.replace(/[^0-9.]/g,'')) || 0;
+      } else {
+        annual = (parseFloat(document.getElementById('monthlySalary').value.replace(/[^0-9.]/g,'')) || 0) * 12;
+      }
+
+      const stateTax = parseFloat(document.getElementById('taxState').value) / 100;
+      const fedTax = 0.22;
+      const totalTax = fedTax + stateTax;
+
+      const monthly = annual / 12;
+      const afterTax = monthly * (1 - totalTax);
+      const hourly = annual / (40 * 52);
+
+      document.getElementById('takeHome').textContent = formatCurrency(afterTax);
+      document.getElementById('sHourly').textContent = formatCurrency(hourly);
+      document.getElementById('sDaily').textContent = formatCurrency(hourly * 8);
+      document.getElementById('sWeekly').textContent = formatCurrency(annual / 52);
+      document.getElementById('sBiweekly').textContent = formatCurrency(annual / 26);
+      document.getElementById('sMonthly').textContent = formatCurrency(monthly);
+      document.getElementById('sAnnual').textContent = formatCurrency(annual);
+      document.getElementById('sFedTax').textContent = '-' + formatCurrency(annual * fedTax);
+      document.getElementById('sStateTax').textContent = '-' + formatCurrency(annual * stateTax);
+      document.getElementById('salaryResults').style.display = 'block';
+    }
+    calcSalary();
+  </script>
+</body>
+</html>

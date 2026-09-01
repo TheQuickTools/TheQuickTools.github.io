@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word & Character Counter - Text Analyzer | QuickTools</title>
+  <meta name="description" content="Free word and character counter. Count words, characters, sentences, paragraphs, and estimate reading time in real-time.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366f1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>⚡</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="/" class="logo"><div class="logo-icon">⚡</div> QuickTools</a><button class="nav-toggle" aria-label="Menu">☰</button><nav class="nav"><a href="/#text" class="nav-link active">Text</a></nav></div></header>
+  <main class="tool-page">
+    <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#text">Text</a> <span>/</span> Word Counter</div>
+    <h1>Word & Character Counter</h1>
+    <p class="tool-desc">Paste or type text to count words, characters, sentences, and paragraphs. See reading and speaking time.</p>
+
+    <div class="form-group"><textarea id="wcInput" rows="8" placeholder="Paste or type your text here..." oninput="countWords()" style="font-size:1rem;line-height:1.6;"></textarea></div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;">
+      <div class="result-card" style="text-align:center;padding:16px;">
+        <div class="result-label">Words</div>
+        <div style="font-size:1.5rem;font-weight:800;" id="wcWords">0</div>
+      </div>
+      <div class="result-card" style="text-align:center;padding:16px;">
+        <div class="result-label">Characters</div>
+        <div style="font-size:1.5rem;font-weight:800;" id="wcChars">0</div>
+      </div>
+      <div class="result-card" style="text-align:center;padding:16px;">
+        <div class="result-label">No Spaces</div>
+        <div style="font-size:1.5rem;font-weight:800;" id="wcNoSpace">0</div>
+      </div>
+      <div class="result-card" style="text-align:center;padding:16px;">
+        <div class="result-label">Sentences</div>
+        <div style="font-size:1.5rem;font-weight:800;" id="wcSent">0</div>
+      </div>
+      <div class="result-card" style="text-align:center;padding:16px;">
+        <div class="result-label">Paragraphs</div>
+        <div style="font-size:1.5rem;font-weight:800;" id="wcPara">0</div>
+      </div>
+      <div class="result-card" style="text-align:center;padding:16px;">
+        <div class="result-label">Reading Time</div>
+        <div style="font-size:1.5rem;font-weight:800;" id="wcRead">0s</div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-details">
+        <div class="result-row"><span>Words per minute (avg)</span><span>200</span></div>
+        <div class="result-row"><span>Speaking time</span><span id="wcSpeak">-</span></div>
+        <div class="result-row"><span>Syllables (est.)</span><span id="wcSyl">-</span></div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <script src="../js/app.js"></script>
+  <script>
+    function countWords() {
+      const text = document.getElementById('wcInput').value;
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      const chars = text.length;
+      const noSpace = text.replace(/\s/g, '').length;
+      const sentences = text.trim() ? (text.match(/[.!?]+/g) || []).length || (text.trim().split(/\s+/).length > 0 ? 1 : 0) : 0;
+      const paras = text.trim() ? text.split(/\n\s*\n/).filter(p=>p.trim()).length || 1 : 0;
+      const readMin = Math.ceil(words / 200);
+      const readSec = Math.round((words / 200) * 60);
+      const speakMin = Math.ceil(words / 130);
+
+      document.getElementById('wcWords').textContent = words;
+      document.getElementById('wcChars').textContent = chars;
+      document.getElementById('wcNoSpace').textContent = noSpace;
+      document.getElementById('wcSent').textContent = sentences;
+      document.getElementById('wcPara').textContent = paras;
+      document.getElementById('wcRead').textContent = readMin < 1 ? readSec + 's' : readMin + ' min';
+      document.getElementById('wcSpeak').textContent = speakMin + ' min';
+      document.getElementById('wcSyl').textContent = Math.round(words * 1.5);
+    }
+  </script>
+</body>
+</html>
