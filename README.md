@@ -2,7 +2,7 @@
 
 A fast, minimal, SEO-optimized utility website with 25+ free online tools. Built with pure HTML/CSS/JS — no frameworks, no build step, instant loading.
 
-**Live Site:** [quicktools.io](https://quicktools.io)
+**GitHub:** [github.com/MonMon-05/quicktools](https://github.com/MonMon-05/quicktools)
 
 ## Tools Included
 
