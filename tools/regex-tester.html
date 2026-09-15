@@ -15,7 +15,7 @@
   <main class="tool-page">
     <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#text">Text</a> <span>/</span> Regex Tester</div>
     <h1>Regex Tester</h1>
-    <p class="tool-desc">Test regular expressions with live matching and match group extraction.</p>
+    <p class="tool-desc">Test regular expressions with live matching and match group extraction. A regular expression (regex) is a powerful pattern-matching tool used in text processing, data validation, and search-and-replace operations. This tool provides instant feedback as you type, highlighting all matches in your test string and showing captured groups for complex patterns. Whether you are validating emails, extracting data from logs, or building search features, this regex tester makes it easy to write and debug patterns in real time.</p>
 
     <div class="result-card" style="background:transparent;border:none;padding:0;">
       <div class="form-group"><label>Regular Expression</label><input type="text" id="rxPattern" value="\b[A-Z][a-z]+\b" oninput="testRegex()" style="font-family:var(--font-mono);"></div>
@@ -47,8 +47,18 @@
       <span class="result-label">Match Groups</span>
       <div id="rxGroups" class="result-details"></div>
     </div>
+    <div class="result-card" style="margin-top:24px;">
+      <h3 style="font-size:1rem;margin-bottom:12px;">About Regular Expressions</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;margin-bottom:16px;">Regular expressions are a concise language for describing text patterns. They are built from a combination of literal characters and special operators like anchors, quantifiers, character classes, and capture groups. Mastering regex unlocks powerful text manipulation across programming languages, command-line tools, and text editors. This tester supports the full JavaScript regex syntax, so patterns you test here work identically in Node.js, browsers, and frontend frameworks.</p>
+      <h3 style="font-size:1rem;margin-bottom:12px;">Frequently Asked Questions</h3>
+      <div class="result-details">
+        <div class="result-row"><span>What does the "g" flag do?</span><span>The "g" (global) flag tells the regex engine to find all matches in the string, not just the first one. Without it, only the first match is returned.</span></div>
+        <div class="result-row"><span>How do I capture specific parts of a match?</span><span>Use parentheses to create capture groups. For example, (\\w+)@(\\w+)\\.\\w+ captures the username and domain separately from an email address.</span></div>
+        <div class="result-row"><span>Why is my regex not matching?</span><span>Common issues include unescaped special characters, missing anchors (^ or $), and incorrect flags. Try the quick patterns dropdown for proven examples you can modify.</span></div>
+      </div>
+    </div>
   </main>
-  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a> <a href="/about.html">About</a> <a href="/privacy.html">Privacy</a> <a href="/terms.html">Terms</a></div><p>&copy; 2026 QuickTools.</p></footer>
   <script src="../js/app.js"></script>
   <script>
     function testRegex() {

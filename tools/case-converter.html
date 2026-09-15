@@ -15,7 +15,7 @@
   <main class="tool-page">
     <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#text">Text</a> <span>/</span> Case Converter</div>
     <h1>Case Converter</h1>
-    <p class="tool-desc">Convert text between different cases instantly. Click any button to copy the result.</p>
+    <p class="tool-desc">Convert text between different cases instantly. Click any button to copy the result. Text case conversion is a fundamental task in programming, writing, and content formatting. Developers use it to transform variable names between camelCase, snake_case, and PascalCase. Writers use Title Case and Sentence case for headings and body text. This tool supports twelve common case formats including UPPER CASE, lower case, kebab-case, and CONSTANT_CASE, making it a versatile utility for any text transformation need.</p>
 
     <div class="form-group"><textarea id="ccInput" rows="4" placeholder="Enter text to convert..." oninput="convertCase()" style="font-size:1rem;"></textarea></div>
 
@@ -38,8 +38,18 @@
       <div class="result-label">Result (click to copy)</div>
       <div id="ccResult" style="font-family:var(--font-mono);font-size:0.95rem;word-break:break-all;cursor:pointer;padding:8px 0;" onclick="copyText(this.textContent)"></div>
     </div>
+    <div class="result-card" style="margin-top:24px;">
+      <h3 style="font-size:1rem;margin-bottom:12px;">When to Use Different Cases</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;margin-bottom:16px;">Different industries and programming languages have specific case conventions. JavaScript uses camelCase for variables and PascalCase for classes. Python and Ruby favor snake_case for identifiers. URLs and CSS class names typically use kebab-case. Environment variables and constants use CONSTANT_CASE. Understanding these conventions helps you write code that is consistent, readable, and follows the standards of your language or framework.</p>
+      <h3 style="font-size:1rem;margin-bottom:12px;">Frequently Asked Questions</h3>
+      <div class="result-details">
+        <div class="result-row"><span>What is camelCase?</span><span>camelCase starts with a lowercase letter and capitalizes each subsequent word (e.g., myVariableName). It is the standard naming convention in JavaScript, Java, and C#.</span></div>
+        <div class="result-row"><span>What is the difference between camelCase and PascalCase?</span><span>camelCase starts with a lowercase letter (myFunction), while PascalCase starts with an uppercase letter (MyFunction). PascalCase is used for class names and component names in React.</span></div>
+        <div class="result-row"><span>When should I use snake_case?</span><span>snake_case separates words with underscores (my_variable_name). It is the convention in Python, Ruby, and Rust for function and variable names.</span></div>
+      </div>
+    </div>
   </main>
-  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a> <a href="/about.html">About</a> <a href="/privacy.html">Privacy</a> <a href="/terms.html">Terms</a></div><p>&copy; 2026 QuickTools.</p></footer>
   <script src="../js/app.js"></script>
   <script>
     function ccOut(type) {

@@ -15,7 +15,7 @@
   <main class="tool-page">
     <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#dev">Developer</a> <span>/</span> Color Converter</div>
     <h1>Color Converter</h1>
-    <p class="tool-desc">Convert between color formats and pick colors visually.</p>
+    <p class="tool-desc">Convert between color formats and pick colors visually. This tool supports HEX, RGB, and HSL color models — the three most common formats used in web development and graphic design. Whether you are writing CSS styles, building a design system, or matching brand colors, this converter gives you instant access to every format for any color you pick. Simply enter a value in any field or use the color picker to see all formats update in real time.</p>
 
     <div class="result-card" style="background:transparent;border:none;padding:0;">
       <div class="form-group"><label>Pick Color</label><input type="color" id="colPick" value="#6366f1" oninput="colorFromPick()" style="width:100%;height:48px;border:none;cursor:pointer;border-radius:var(--radius-sm);"></div>
@@ -37,8 +37,18 @@
         <div class="result-row"><span>CSS Function</span><span id="colCss" style="font-family:var(--font-mono);cursor:pointer;font-size:0.85rem;" onclick="copyText(this.textContent)">-</span></div>
       </div>
     </div>
+    <div class="result-card" style="margin-top:24px;">
+      <h3 style="font-size:1rem;margin-bottom:12px;">Understanding Color Formats</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;margin-bottom:16px;">HEX notation uses a six-character string preceded by a hash symbol to represent RGB values in hexadecimal. RGB defines colors by mixing red, green, and blue channels from 0 to 255. HSL stands for Hue, Saturation, and Lightness, offering a more intuitive way to adjust colors by tweaking brightness and vividness. Each format has its place — HEX is common in CSS, RGB is used in canvas and image editing, and HSL makes it easier to create color palettes and shade variations.</p>
+      <h3 style="font-size:1rem;margin-bottom:12px;">Frequently Asked Questions</h3>
+      <div class="result-details">
+        <div class="result-row"><span>What is the difference between HEX and RGB?</span><span>Both represent the same colors. HEX uses a six-digit base-16 string (e.g., #FF5733), while RGB uses three decimal values (255, 87, 51). They are interchangeable.</span></div>
+        <div class="result-row"><span>Why use HSL instead of RGB?</span><span>HSL is more intuitive for humans. Adjusting lightness or saturation in HSL gives predictable results, while tweaking individual RGB channels can be harder to control.</span></div>
+        <div class="result-row"><span>What is the CSS color function shown?</span><span>The CSS function format uses the modern syntax (e.g., rgb(255 87 51 / 1)) with space-separated values and an alpha channel, supported in all modern browsers.</span></div>
+      </div>
+    </div>
   </main>
-  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a> <a href="/about.html">About</a> <a href="/privacy.html">Privacy</a> <a href="/terms.html">Terms</a></div><p>&copy; 2026 QuickTools.</p></footer>
   <script src="../js/app.js"></script>
   <script>
     function hexToRgb(hex) {

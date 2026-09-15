@@ -15,7 +15,7 @@
   <main class="tool-page">
     <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#dev">Developer</a> <span>/</span> QR Code Generator</div>
     <h1>QR Code Generator</h1>
-    <p class="tool-desc">Generate QR codes from any text or URL. Download as PNG.</p>
+    <p class="tool-desc">Generate QR codes from any text or URL and download them as high-quality PNG images. QR codes are two-dimensional barcodes that can be scanned by smartphone cameras to quickly access websites, contact information, Wi-Fi credentials, or payment links. This free tool lets you customize the foreground and background colors, choose your preferred size, and download or copy the generated image instantly. Perfect for marketing materials, business cards, event posters, and digital menus.</p>
 
     <div class="result-card" style="background:transparent;border:none;padding:0;">
       <div class="form-group"><label>Text or URL</label><input type="text" id="qrInput" value="https://quicktools.io" oninput="genQR()"></div>
@@ -35,8 +35,18 @@
         <button class="btn btn-secondary" onclick="copyQR()">Copy Image</button>
       </div>
     </div>
+    <div class="result-card" style="margin-top:24px;">
+      <h3 style="font-size:1rem;margin-bottom:12px;">About QR Codes</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;margin-bottom:16px;">QR codes (Quick Response codes) were originally designed for the automotive industry but have become ubiquitous in everyday life. They store data in a grid of black and white squares that any smartphone camera can scan. QR codes are used for linking to websites, sharing contact details, initiating payments, and providing product information. They can hold up to 4,296 alphanumeric characters, making them versatile for a wide range of use cases.</p>
+      <h3 style="font-size:1rem;margin-bottom:12px;">Frequently Asked Questions</h3>
+      <div class="result-details">
+        <div class="result-row"><span>How much data can a QR code hold?</span><span>A QR code can store up to 4,296 alphanumeric characters, 7,089 numeric digits, or 2,953 bytes of binary data, depending on the error correction level.</span></div>
+        <div class="result-row"><span>Can QR codes be scanned without an app?</span><span>Yes. Modern smartphone cameras on iOS and Android can natively scan QR codes — just point your camera at the code and a notification will appear.</span></div>
+        <div class="result-row"><span>What are common uses for QR codes?</span><span>QR codes are used for website URLs, Wi-Fi password sharing, restaurant menus, event tickets, payment processing, business cards, and product packaging.</span></div>
+      </div>
+    </div>
   </main>
-  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a> <a href="/about.html">About</a> <a href="/privacy.html">Privacy</a> <a href="/terms.html">Terms</a></div><p>&copy; 2026 QuickTools.</p></footer>
   <script src="../js/app.js"></script>
   <script>
     // Simple QR code generator (supports alphanumeric/URL)

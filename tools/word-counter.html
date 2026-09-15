@@ -15,7 +15,7 @@
   <main class="tool-page">
     <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#text">Text</a> <span>/</span> Word Counter</div>
     <h1>Word & Character Counter</h1>
-    <p class="tool-desc">Paste or type text to count words, characters, sentences, and paragraphs. See reading and speaking time.</p>
+    <p class="tool-desc">Paste or type text to count words, characters, sentences, and paragraphs. See reading and speaking time. This real-time text analyzer is essential for writers, students, SEO professionals, and content creators who need to meet specific word count requirements. It also estimates reading time based on average adult reading speed (200 WPM), speaking time for presentations (130 WPM), and approximate syllable count. Everything runs locally in your browser — your text is never uploaded or stored anywhere.</p>
 
     <div class="form-group"><textarea id="wcInput" rows="8" placeholder="Paste or type your text here..." oninput="countWords()" style="font-size:1rem;line-height:1.6;"></textarea></div>
 
@@ -53,8 +53,18 @@
         <div class="result-row"><span>Syllables (est.)</span><span id="wcSyl">-</span></div>
       </div>
     </div>
+    <div class="result-card" style="margin-top:24px;">
+      <h3 style="font-size:1rem;margin-bottom:12px;">Why Word Count Matters</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;margin-bottom:16px;">Word count is a critical metric across many fields. SEO experts track it to ensure content meets minimum thresholds for search engine ranking. Students and academics must meet essay and thesis word limits. Authors and journalists use word counts to manage article length and pacing. Social media managers monitor character and word counts to fit platform constraints. This tool provides all the metrics you need in one place, updated in real time as you type.</p>
+      <h3 style="font-size:1rem;margin-bottom:12px;">Frequently Asked Questions</h3>
+      <div class="result-details">
+        <div class="result-row"><span>How is reading time calculated?</span><span>Reading time is estimated at 200 words per minute, which is the average adult reading speed for non-fiction content. Speaking time uses 130 WPM, a common pace for presentations.</span></div>
+        <div class="result-row"><span>What counts as a word?</span><span>A word is any sequence of characters separated by whitespace. Contractions like "don't" count as one word, and hyphenated terms count as one word unless separated by spaces.</span></div>
+        <div class="result-row"><span>Is my text stored on a server?</span><span>No. All counting happens entirely in your browser using JavaScript. Your text is never transmitted, stored, or accessible to anyone else.</span></div>
+      </div>
+    </div>
   </main>
-  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a> <a href="/about.html">About</a> <a href="/privacy.html">Privacy</a> <a href="/terms.html">Terms</a></div><p>&copy; 2026 QuickTools.</p></footer>
   <script src="../js/app.js"></script>
   <script>
     function countWords() {

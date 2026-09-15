@@ -15,7 +15,7 @@
   <main class="tool-page">
     <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#dev">Developer</a> <span>/</span> UUID Generator</div>
     <h1>UUID Generator</h1>
-    <p class="tool-desc">Generate UUID v4 unique identifiers. Cryptographically random.</p>
+    <p class="tool-desc">Generate UUID v4 unique identifiers. Cryptographically random and collision-resistant. Useful for database keys, API tokens, session IDs, and any application requiring unique identifiers.</p>
 
     <div class="result-card" style="background:transparent;border:none;padding:0;">
       <div class="form-row">
@@ -34,8 +34,25 @@
       </div>
       <div class="result-details" id="uuidList"></div>
     </div>
+
+    <div class="result-card" style="margin-top:24px;">
+      <h3 style="font-size:1rem;margin-bottom:12px;">What is a UUID?</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;margin-bottom:16px;">A UUID (Universally Unique Identifier) is a 128-bit number used to uniquely identify information in computer systems. UUIDs are designed to be unique across both space and time, making them ideal for distributed systems where centralized coordination isn't possible.</p>
+      <h3 style="font-size:1rem;margin-bottom:12px;">UUID Versions</h3>
+      <div class="result-details">
+        <div class="result-row"><span>Version 4 (Random)</span><span>Generated from random numbers. Most common. 122 random bits.</span></div>
+        <div class="result-row"><span>Version 1 (Timestamp)</span><span>Based on timestamp and MAC address. Rarely used today.</span></div>
+        <div class="result-row"><span>Version 5 (Namespace)</span><span>Generated from namespace + name using SHA-1 hash.</span></div>
+      </div>
+      <h3 style="font-size:1rem;margin-bottom:12px;margin-top:16px;">Frequently Asked Questions</h3>
+      <div class="result-details">
+        <div class="result-row"><span>How unique are UUID v4?</span><span>The probability of collision is approximately 1 in 2^122, making them effectively unique for any practical purpose.</span></div>
+        <div class="result-row"><span>Can UUIDs be guessed?</span><span>UUID v4 uses cryptographically secure random numbers, making them practically impossible to guess.</span></div>
+        <div class="result-row"><span>Where are UUIDs used?</span><span>Database primary keys, API tokens, session identifiers, file names, and distributed system identifiers.</span></div>
+      </div>
+    </div>
   </main>
-  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a> <a href="/about.html">About</a> <a href="/privacy.html">Privacy</a> <a href="/terms.html">Terms</a></div><p>&copy; 2026 QuickTools.</p></footer>
   <script src="../js/app.js"></script>
   <script>
     function uuid4() {

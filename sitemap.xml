@@ -29,4 +29,7 @@
   <url><loc>https://thequicktools.github.io/tools/ai-pricing.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://thequicktools.github.io/tools/ai-prompt.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://thequicktools.github.io/tools/ai-park.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://thequicktools.github.io/about.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://thequicktools.github.io/privacy.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://thequicktools.github.io/terms.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
 </urlset>

@@ -15,7 +15,7 @@
   <main class="tool-page">
     <div class="breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/#converters">Converters</a> <span>/</span> Number Base Converter</div>
     <h1>Number Base Converter</h1>
-    <p class="tool-desc">Convert between binary, octal, decimal, hexadecimal, and custom bases.</p>
+    <p class="tool-desc">Convert between binary, octal, decimal, hexadecimal, and custom bases. Essential for programmers, computer science students, and anyone working with different number systems.</p>
 
     <div class="result-card" style="background:transparent;border:none;padding:0;">
       <div class="form-group"><label>Input Value</label><input type="text" id="nbInput" value="255" oninput="convertBase()"></div>
@@ -53,8 +53,25 @@
         </div>
       </div>
     </div>
+    <div class="result-card" style="margin-top:24px;">
+      <h3 style="font-size:1rem;margin-bottom:12px;">What is a Number Base?</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;margin-bottom:16px;">A number base (or radix) is the number of unique digits used to represent numbers. The decimal system we use daily is base-10 (digits 0-9). Computers use binary (base-2), which only uses 0 and 1. Hexadecimal (base-16) is commonly used in programming and web design for color codes, memory addresses, and more.</p>
+      <h3 style="font-size:1rem;margin-bottom:12px;">Common Number Bases</h3>
+      <div class="result-details">
+        <div class="result-row"><span>Binary (Base-2)</span><span>Used by computers. Only 0 and 1.</span></div>
+        <div class="result-row"><span>Octal (Base-8)</span><span>Uses digits 0-7. Used in Unix permissions.</span></div>
+        <div class="result-row"><span>Decimal (Base-10)</span><span>Standard everyday number system.</span></div>
+        <div class="result-row"><span>Hexadecimal (Base-16)</span><span>Uses 0-9 and A-F. Common in programming.</span></div>
+      </div>
+      <h3 style="font-size:1rem;margin-bottom:12px;margin-top:16px;">Frequently Asked Questions</h3>
+      <div class="result-details">
+        <div class="result-row"><span>Why do programmers use hexadecimal?</span><span>Hex is compact — one hex digit represents exactly 4 binary digits, making it easier to read binary data.</span></div>
+        <div class="result-row"><span>How do I convert binary to decimal?</span><span>Multiply each bit by 2 raised to its position power, then sum all values. For example: 1011 = 1×8 + 0×4 + 1×2 + 1×1 = 11.</span></div>
+        <div class="result-row"><span>What is a byte?</span><span>A byte is 8 bits (binary digits), ranging from 00000000 to 11111111 in binary, or 0 to 255 in decimal, or 00 to FF in hexadecimal.</span></div>
+      </div>
+    </div>
   </main>
-  <footer class="footer"><div class="footer-links"><a href="/">Home</a></div><p>&copy; 2026 QuickTools.</p></footer>
+  <footer class="footer"><div class="footer-links"><a href="/">Home</a> <a href="/about.html">About</a> <a href="/privacy.html">Privacy</a> <a href="/terms.html">Terms</a></div><p>&copy; 2026 QuickTools.</p></footer>
   <script src="../js/app.js"></script>
   <script>
     function convertBase() {
